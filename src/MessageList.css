@@ -1,0 +1,10 @@
+.message-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adjust the space between messages */
+    margin: 20px 0;
+  }
+  
+  /* Additional styling as needed */
+  
