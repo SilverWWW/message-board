@@ -24,24 +24,23 @@ function SignUp() {
     });
 
     if (error) {
-        console.error('Error signing up:', error);
+        if (error.message.includes('email address: invalid format')) {
+            setSignUpError('Invalid email');
+            return;
+        }
         setSignUpError("Error: " + error.message);
+        return;
     }
-
-    /*
+    
     else {
 
         const { data, insertError } = await supabase
         .from('users')
         .insert([{email: email, name: name}]);
 
-        if (insertError) {
-            console.error('Error inserting user email:', insertError);
-        }
-        
         navigate('/messageboard');
     }
-    */
+
 };
 
 const checkIfEmailInUsersTable = async (email) => {
@@ -77,6 +76,9 @@ const checkIfEmailInUsersTable = async (email) => {
         <br/>
         <br/>
         <button className='button' onClick={() => handleSignUp(email, password, name)}>Sign Up</button>
+        <br/>
+        <br/>
+        <button className='background-button' onClick={() => navigate('/loginhome')}>Back to Login</button>
         <br/>
         <br/>
         {signUpError && <div className="error-message">{signUpError}</div>}

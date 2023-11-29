@@ -1,4 +1,19 @@
 
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  flex-grow: 1;
+}
+
 .title-header {
     font-size: 3em;
     color: rgb(0, 127, 225);
@@ -19,8 +34,18 @@
   }
   
 .button:hover {
-    background-color: rgb(64, 151, 217);
+    background-color: rgb(77, 159, 222);
   }
+
+.background-button {
+    background-color: rgb(200, 200, 200);
+    color: white;
+  }
+  
+.background-button:hover {
+    background-color: rgb(230, 230, 230);
+  }
+  
 
 .center {
     text-align: center;

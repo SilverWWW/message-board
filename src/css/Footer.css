@@ -1,0 +1,25 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(0, 127, 225);
+  color: white;
+  font-family: monospace;
+}
+
+.footer-left-message {
+  text-align: left;
+  display: flex;
+  gap: 10px;
+  margin: 5px;
+  flex: 1;
+}
+
+.footer-right-message {
+  margin: 5px;
+  text-align: right;
+  margin-right: 20px;
+  flex: 1;
+}

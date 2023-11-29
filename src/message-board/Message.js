@@ -1,4 +1,4 @@
-import "./Message.css";
+import "../css/Message.css";
 import moment from 'moment';
 
 function Message({message, timestamp, username}) {

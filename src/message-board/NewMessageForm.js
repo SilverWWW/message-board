@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './NewMessageForm.css';
+import '../css/NewMessageForm.css';
 
 function NewMessageForm({ onSendMessage }) {
   

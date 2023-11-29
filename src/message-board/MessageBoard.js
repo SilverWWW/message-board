@@ -1,4 +1,4 @@
-import './MessageBoard.css';
+import '../css/MessageBoard.css';
 import NewMessageForm from './NewMessageForm.js';
 import MessageList from './MessageList.js';
 import React, { useState, useEffect } from 'react';
@@ -39,6 +39,7 @@ function MessageBoard() {
 
 
     <div className='parent-container'>
+
       <p className='title-header'>What's on your mind..?</p>
       <div className='message-board'>
         <NewMessageForm onSendMessage={onSendMessage} />  

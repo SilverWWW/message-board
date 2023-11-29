@@ -1,6 +1,6 @@
 import React from 'react';
 import Message from './Message';
-import './MessageList.css';
+import '../css/MessageList.css';
 
 function MessageList({ messages }) {
   return (
