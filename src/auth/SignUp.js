@@ -86,19 +86,19 @@ const checkIfEmailInUsersTable = async (email) => {
 
         <p className='title-header'>Sign up with Email</p>  
 
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+        <input className='user-info-input' type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
         <br/>
         <br/>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+        <input className='user-info-input' type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         <br/>
         <br/>
-        <input type="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Display Name" />
+        <input className='user-info-input' type="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Display Name" />
         <br/>
         <br/>
         <button className='button' onClick={() => handleSignUp(email, password, name)}>Sign Up</button>
         <br/>
         <br/>
-        <button className='background-button' onClick={() => navigate('/loginhome')}>Back to Login</button>
+        <button className='button background-button' onClick={() => navigate('/loginhome')}>Back to Login</button>
         <br/>
         <br/>
         {signUpError && <div className="error-message">{signUpError}</div>}

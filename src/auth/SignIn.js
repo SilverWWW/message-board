@@ -4,6 +4,7 @@ import { useState } from 'react';
 import supabase from './supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
+import '../css/SignIn.css';
 
 
 function SignIn() {
@@ -68,10 +69,10 @@ function SignIn() {
         <p className='title-header'>Sign in with Email</p>
 
 
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email"/>
+        <input className='user-info-input' type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email"/>
         <br/>
         <br/>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+        <input className='user-info-input' type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         <br/>
         <br/>
         <button className='button' onClick={() => handleSignIn(email, password)}>Sign In</button>
