@@ -12,6 +12,8 @@ html, body {
 
 .content {
   flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 60px;
 }
 
 .title-header {

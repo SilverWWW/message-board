@@ -22,7 +22,7 @@ const Footer = () => {
   return (
     <div className='footer'>
       <div className="footer-left-message">
-        <p>Currently signed in as: {user ? user.email : 'none'}</p>
+        <p>Currently signed in as: {user ? user.email : 'Not signed in'}</p>
         {user && (
           <button className='button background-button' onClick={logoutUser}>Logout</button>
         )}

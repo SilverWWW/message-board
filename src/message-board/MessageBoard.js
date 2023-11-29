@@ -2,36 +2,96 @@ import '../css/MessageBoard.css';
 import NewMessageForm from './NewMessageForm.js';
 import MessageList from './MessageList.js';
 import React, { useState, useEffect } from 'react';
+import { useAuth } from "../auth/AuthContext";
+import supabase from '../auth/supabaseClient';
 
-
-const fetchedMessages = [
-  { username: 'Alice', text: 'Hello!', timestamp: '10 minutes ago' },
-  { username: 'Bob', text: 'Hi there!', timestamp: '8 minutes ago' },
-  // ... more messages
-];
 
 function MessageBoard() {
 
-  const onSendMessage = (message) => {
-    const newMessage = {
-      username: 'Current User',
-      text: message,
-      timestamp: new Date()
-    };
+  const { user } = useAuth();
+  const [messages, setMessages] = useState([]);
   
-    setMessages([...messages, newMessage]);
+  const getUserName = async (id) => {
+
+    const {data, error} = await supabase
+      .from('users')
+      .select('name')
+      .eq('id', id)
+      .maybeSingle();
+    
+      if (error) {
+        console.error('Error getting user name:', error);
+        return "Unknown";
+      }
+
+      return data.name;
   }
 
-  const [messages, setMessages] = useState([]);
+
+  const fetchMessages = async () => {
+    const { data, error } = await supabase
+      .from('messages')
+      .select(`
+        created_at,
+        content,
+        posted_by
+      `);
+
+      console.log(data);
+
+    if (error) {
+      console.error('Error fetching messages:', error);
+      return;
+    }
+
+    const formattedMessages = await Promise.all(data.map(async (message) => {
+      
+      const username = await getUserName(message.posted_by);
+      
+      return {
+        username,
+        text: message.content,
+        timestamp: new Date(message.created_at)
+      };
+    }));
+
+    setMessages(formattedMessages);
+  };
 
   useEffect(() => {
-    const fetchedMessages = [
-      { username: 'Alice', text: 'Hello!', timestamp: new Date(2023, 10, 27, 20, 0, 0) },
-      { username: 'Bob', text: 'Hi there!', timestamp: new Date(2023, 10, 27, 21, 0, 0) },
+    fetchMessages();
 
-    ];
-    setMessages(fetchedMessages);
-  }, [])
+    const channel = supabase
+      .channel('message-board-channel')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, payload => {
+        console.log('Change received!', payload);
+        fetchMessages(); // Refetch messages when a new one is added
+      })
+      .subscribe();
+
+    // Cleanup on component unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const onSendMessage = async (messageText) => {
+
+    console.log(user);
+
+    const { data, error } = await supabase
+      .from('messages')
+      .insert([
+        { content: messageText, posted_by: user.id, created_at: new Date() }
+      ]);
+
+    if (error) {
+      console.error('Error sending message:', error);
+      return;
+    }
+
+    fetchMessages();
+  }
   
   
   return (
@@ -43,7 +103,6 @@ function MessageBoard() {
       <p className='title-header'>What's on your mind..?</p>
       <div className='message-board'>
         <NewMessageForm onSendMessage={onSendMessage} />  
-
         <MessageList messages={messages} />
       </div>
     </div>

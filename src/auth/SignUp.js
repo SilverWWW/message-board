@@ -2,26 +2,46 @@
 import React, { useState } from 'react';
 import supabase from './supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "./AuthContext";
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [signUpError, setSignUpError] = useState('');
+  const { user, setUser } = useAuth();
+
 
   let navigate = useNavigate();
 
   const handleSignUp = async (email, password, name) => {
+
+    if (password.length < 6) {
+        setSignUpError('Password must be at least 6 characters long');
+        return;
+    }
+
+    if (user) {
+      console.log('Already signed in: ', user);
+      return;
+    }
 
     if (await checkIfEmailInUsersTable(email)) {
         setSignUpError('Email already in use');
         return;
     }
     
-    const { user, session, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    const result = await supabase.auth.signUp({ email, password });
+
+    const { data, error } = result;
+
+    console.log(data);
+
+    const { session, user: signedUpUser } = data;
+
+    console.log(signedUpUser.id);
+
+
 
     if (error) {
         if (error.message.includes('email address: invalid format')) {
@@ -34,11 +54,11 @@ function SignUp() {
     
     else {
 
-        const { data, insertError } = await supabase
-        .from('users')
-        .insert([{email: email, name: name}]);
+      setUser(signedUpUser)
 
-        navigate('/messageboard');
+      const { data, insertError } = await supabase
+      .from('users')
+      .insert([{email: email, name: name, id: signedUpUser.id}]);
     }
 
 };
