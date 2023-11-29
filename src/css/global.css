@@ -57,3 +57,8 @@ html, body {
     font-style: bold;
   }
 
+.default-font {
+    font-family: monospace;
+    color: black;
+  }
+

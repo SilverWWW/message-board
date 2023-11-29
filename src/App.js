@@ -6,27 +6,57 @@ import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import Footer from "./common/Footer";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
+import PrivateRoute from "./auth/PrivateRoute";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './css/global.css';
 
 function App() {
+
     return (
         <AuthProvider>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-                <Router>
+            <Router>
+                <UserRedirect />
+                <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                     <div className='content'>
-                        <Routes>
-                            <Route path="/" element={<Navigate replace to="/loginhome" />} />
-                            <Route path="/loginhome" element={<Login />} />
-                            <Route path="/messageboard" element={<MessageBoard />} />
-                            <Route path="/signin" element={<SignIn />} />
-                            <Route path="/signup" element={<SignUp />} />
-                        </Routes>
+                        <AppRoutes />
                     </div>
                     <Footer/>
-                </Router>
-            </div>
+                </div>
+            </Router>
         </AuthProvider>
     );
 }
+
+const AppRoutes = () => {
+
+    return (
+        <Routes>
+            <Route path="/" element={<Navigate replace to="/loginhome"/>} />
+            <Route path="/loginhome" element={<Login />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/messageboard" element={
+                <PrivateRoute>
+                    <MessageBoard />
+                </PrivateRoute>
+            } />
+        </Routes>
+    );
+};
+
+
+const UserRedirect = () => {
+    const { user } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/messageboard');
+        }
+    }, [user, navigate]);
+
+    return null;
+};
 
 export default App;

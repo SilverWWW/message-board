@@ -9,7 +9,7 @@ import { useAuth } from "./AuthContext";
 function SignIn() {
 
   let navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,16 +17,22 @@ function SignIn() {
 
 
   const handleSignIn = async (email, password) => {
-    
+
+    if (user) {
+      setSignInError('Already signed in.');
+      console.log('current user: ', user);
+      return;
+    }
+
     if (!(await checkIfEmailInUsersTable(email))) {
       setSignInError('Email not found. Please register.');
       return;
     }
 
-    const { user, session, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
+    const result = await supabase.auth.signInWithPassword({ email, password });
+
+    const { user: signedInUser, session, error } = result;
+
 
     if (error) {
       setSignInError('Error: ' + error.message);
@@ -34,8 +40,7 @@ function SignIn() {
     }
       
     else {
-      setUser(user);
-      navigate('/messageboard');
+      setUser(signedInUser);
     }
   }
 

@@ -1,33 +1,38 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import supabase from './supabaseClient';
 
-const AuthContext = createContext({
-  user: null,
-  setUser: () => {},
-});
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Asynchronously get the current session
+    // Asynchronously check for an existing session and set user
     const fetchSession = async () => {
-      const { data: session } = await supabase.auth.getSession();
-      setUser(session?.user || null);
+      const { session, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Error fetching session:', error);
+      } else {
+        console.log('Session fetched: ', session);
+        setUser(session?.user || null);
+      }
     };
 
     fetchSession();
 
-    // Listen for changes in authentication state
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+    // Set up a listener for authentication state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user || null);
     });
 
-    // Cleanup subscription
+    // Cleanup the listener when the component unmounts
     return () => {
-      authListener?.unsubscribe();
-    };
-  }, []);
+        if (authListener && typeof authListener.unsubscribe === 'function') {
+          authListener.unsubscribe();
+        }
+        // If the unsubscribe method isn't available, handle accordingly
+      };
+    }, []);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

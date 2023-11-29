@@ -16,7 +16,6 @@ const Footer = () => {
       console.error('Error logging out:', error);
     } else {
       setUser(null);
-      navigate('/loginhome');
     }
   };
 
@@ -34,4 +33,4 @@ const Footer = () => {
   );
 };
 
-export default React.memo(Footer);
+export default Footer;
