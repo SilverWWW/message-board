@@ -6,8 +6,25 @@ import { useAuth } from "../auth/AuthContext";
 import { useState, useEffect } from 'react';
 
 const Footer = () => {
-  let navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
+
+
+  const [userName, setUserName] = useState("Not signed in");
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      if (user) {
+        const name = await getUserName(user.id);
+        setUserName(name);
+      } else {
+        setUserName("Not signed in");
+      }
+    };
+
+    fetchUserName();
+  }, [user]);
+
+
 
   const logoutUser = async () => {
     const { error } = await supabase.auth.signOut();
@@ -15,14 +32,33 @@ const Footer = () => {
     if (error) {
       console.error('Error logging out:', error);
     } else {
-      setUser(null);
     }
   };
 
+
+  const getUserName = async (id) => {
+
+    const {data, error} = await supabase
+      .from('users')
+      .select('name')
+      .eq('id', id)
+      .maybeSingle();
+    
+      if (error) {
+        console.error('Error getting user name:', error);
+        return "Unknown";
+      }
+
+      return data ? data.name : "Unknown";
+  }
+
+
   return (
+
+    
     <div className='footer'>
       <div className="footer-left-message">
-        <p>Currently signed in as: {user ? user.email : 'Not signed in'}</p>
+        <p>Currently signed in as: {userName}</p>
         {user && (
           <button className='button background-button' onClick={logoutUser}>Logout</button>
         )}

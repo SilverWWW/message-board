@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MessageBoard from "./message-board/MessageBoard";
-import Login from "./auth/LoginHome";
+import LoginHome from "./auth/LoginHome";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import Footer from "./common/Footer";
@@ -33,7 +33,7 @@ const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={<Navigate replace to="/loginhome"/>} />
-            <Route path="/loginhome" element={<Login />} />
+            <Route path="/loginhome" element={<LoginHome />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/messageboard" element={

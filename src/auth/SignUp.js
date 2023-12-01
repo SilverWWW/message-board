@@ -9,7 +9,7 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [signUpError, setSignUpError] = useState('');
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
 
   let navigate = useNavigate();
@@ -31,16 +31,7 @@ function SignUp() {
         return;
     }
     
-    const result = await supabase.auth.signUp({ email, password });
-
-    const { data, error } = result;
-
-    console.log(data);
-
-    const { session, user: signedUpUser } = data;
-
-    console.log(signedUpUser.id);
-
+    const { data: newData, error } = await supabase.auth.signUp({ email, password });
 
 
     if (error) {
@@ -54,11 +45,14 @@ function SignUp() {
     
     else {
 
-      setUser(signedUpUser)
-
-      const { data, insertError } = await supabase
+      const { insertData, insertError } = await supabase
       .from('users')
-      .insert([{email: email, name: name, id: signedUpUser.id}]);
+      .insert([{email: email, name: name, id: newData.user.id}]);
+
+      if (insertError) {
+        console.error('Error inserting user:', insertError);
+        return;
+      }
     }
 
 };

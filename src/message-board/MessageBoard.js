@@ -37,8 +37,6 @@ function MessageBoard() {
         posted_by
       `);
 
-      console.log(data);
-
     if (error) {
       console.error('Error fetching messages:', error);
       return;
@@ -64,7 +62,6 @@ function MessageBoard() {
     const channel = supabase
       .channel('message-board-channel')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, payload => {
-        console.log('Change received!', payload);
         fetchMessages(); // Refetch messages when a new one is added
       })
       .subscribe();
@@ -76,8 +73,6 @@ function MessageBoard() {
   }, []);
 
   const onSendMessage = async (messageText) => {
-
-    console.log(user);
 
     const { data, error } = await supabase
       .from('messages')

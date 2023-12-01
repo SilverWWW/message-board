@@ -10,7 +10,7 @@ import '../css/SignIn.css';
 function SignIn() {
 
   let navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,7 +41,7 @@ function SignIn() {
     }
       
     else {
-      setUser(signedInUser);
+  
     }
   }
 
