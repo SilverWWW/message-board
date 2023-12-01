@@ -26,9 +26,19 @@ function SignUp() {
       return;
     }
 
+    if (!email || !password || !name) {
+      setSignUpError('Missing email, password, or name');
+      return;
+    }
+
     if (await checkIfEmailInUsersTable(email)) {
         setSignUpError('Email already in use');
         return;
+    }
+
+    if (await checkIfUsernameInUsersTable(name)) {
+      setSignUpError('Username already in use');
+      return;
     }
     
     const { data: newData, error } = await supabase.auth.signUp({ email, password });
@@ -67,6 +77,22 @@ const checkIfEmailInUsersTable = async (email) => {
 
     if (error) {
         console.error('Error getting user email:', error);
+        return false;
+    }
+
+    return !!data;
+  };
+
+  const checkIfUsernameInUsersTable = async (username) => {
+
+    const { data, error } = await supabase
+        .from('users')
+        .select('name')
+        .eq('name', username)
+        .maybeSingle();
+
+    if (error) {
+        console.error('Error getting user name:', error);
         return false;
     }
 

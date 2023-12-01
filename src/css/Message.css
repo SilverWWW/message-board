@@ -6,33 +6,90 @@
     margin-bottom: 10px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
-  }
+}
+
+.message:focus {
+  outline: 2px solid rgb(0, 127, 225);
+}
   
-  .message-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    font-size: 0.85em;
-  }
-  
-  .message-username {
-    font-weight: bold;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  }
-  
-  .message-timestamp {
-    color: #666;
-    font-style: italic;
-  }
-  
-  .message-body {
-    white-space: pre-wrap; /* Ensures the text wraps and respects new lines */
-    background-color: #fff; /* White background for the text box */
-    border: 1px solid #ccc; /* Border for the text box */
-    border-radius: 4px;
-    padding: 8px; /* Padding inside the text box */
-    overflow: hidden; /* Ensures the content doesn't overflow */
-    word-break: break-word; /* Breaks the word to prevent horizontal scrolling */
-    font-family: monospace;
-  }
-  
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 0.85em;
+}
+
+.message-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px
+}
+
+.message-username {
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.message-timestamp {
+  color: #666;
+  font-style: italic;
+}
+
+.message-body {
+  background-color: #fff;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: monospace;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+
+.edit-message-form {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+
+.edit-message-textarea {
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  resize: none;
+  background-color: #fff;
+  font-size: 1em;
+  margin: 0; /* Reset any default margin */
+}
+
+.edit-message-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-message-button {
+  background-color: rgb(0, 127, 225);
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 5px; /* Adds space between buttons */
+  font-size: 1em;
+  font-family: monospace;
+}
+
+.edit-message-button.cancel {
+  background-color: #6c757d;
+}

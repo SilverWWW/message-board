@@ -34,7 +34,8 @@ function MessageBoard() {
       .select(`
         created_at,
         content,
-        posted_by
+        posted_by,
+        id
       `);
 
     if (error) {
@@ -49,12 +50,48 @@ function MessageBoard() {
       return {
         username,
         text: message.content,
-        timestamp: new Date(message.created_at)
+        timestamp: new Date(message.created_at),
+        id: message.id
       };
     }));
 
     setMessages(formattedMessages);
   };
+
+
+  const deleteMessage = async (messageId) => {
+    const { error } = await supabase
+      .from('messages')
+      .delete()
+      .match({ id: messageId });
+  
+    if (error) {
+      console.error('Error deleting message:', error);
+    } else {
+      setMessages(messages.filter((message) => message.id !== messageId));
+    }
+  };
+
+  const updateMessage = async (messageId, editedMessage) => {
+    const { error } = await supabase
+      .from('messages')
+      .update({ content: editedMessage })
+      .match({ id: messageId });
+  
+    if (error) {
+      console.error('Error updating message:', error);
+    } else {
+      setMessages(messages.map((message) => {
+        if (message.id === messageId) {
+          message.text = editedMessage;
+        }
+        return message;
+      }));
+    }
+
+  };
+
+
 
   useEffect(() => {
     fetchMessages();
@@ -71,7 +108,7 @@ function MessageBoard() {
     };
   }, []);
 
-  const onSendMessage = async (messageText) => {
+  const sendMessage = async (messageText) => {
 
     const { data, error } = await supabase
       .from('messages')
@@ -83,11 +120,13 @@ function MessageBoard() {
       console.error('Error sending message:', error);
       return;
     }
-
     fetchMessages();
   }
   
   
+
+
+
   return (
 
 
@@ -96,8 +135,8 @@ function MessageBoard() {
 
       <p className='title-header'>What's on your mind..?</p>
       <div className='message-board'>
-        <NewMessageForm onSendMessage={onSendMessage} />  
-        <MessageList messages={messages} />
+        <NewMessageForm onSendMessage={sendMessage} />  
+        <MessageList messages={messages} deleteMessage={deleteMessage} updateMessage={updateMessage}/>
       </div>
     </div>
     
