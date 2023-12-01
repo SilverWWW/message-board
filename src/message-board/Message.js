@@ -52,7 +52,6 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
             return;
         }
 
-
         updateMessage(id, editedMessage);
         setIsEditing(false);
     };

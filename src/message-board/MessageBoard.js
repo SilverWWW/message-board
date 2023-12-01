@@ -110,16 +110,26 @@ function MessageBoard() {
 
   const sendMessage = async (messageText) => {
 
+    const sentAt = new Date();
+
     const { data, error } = await supabase
       .from('messages')
       .insert([
-        { content: messageText, posted_by: user.id, created_at: new Date() }
+        { content: messageText, posted_by: user.id, created_at: sentAt }
       ]);
 
     if (error) {
       console.error('Error sending message:', error);
       return;
     }
+
+    setMessages(messages.concat({
+      username: user.name,
+      text: messageText,
+      timestamp: sentAt,
+      id: -4503599627370496, // placeholder for fast send
+    }));
+
     fetchMessages();
   }
   
