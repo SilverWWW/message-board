@@ -4,13 +4,24 @@ import '../css/NewMessageForm.css';
 function NewMessageForm({ onSendMessage }) {
   
     const [message, setMessage] = useState('');
+    const [messageError, setmessageError] = useState('');
 
   const handleSubmit = (event) => {
+
     event.preventDefault();
-    if (message.trim()) {
-      onSendMessage(message);
-      setMessage('');
+
+    if (!message.trim()) {
+      setmessageError('Message cannot be empty');
+      return;
     }
+
+    if (message.trim().length > 128) {
+      setmessageError('Message cannot be longer than 128 characters');
+      return;
+    }
+
+    onSendMessage(message);
+    setMessage('');
   };
 
   const handleKeyDown = (event) => {
@@ -29,7 +40,11 @@ function NewMessageForm({ onSendMessage }) {
         onKeyDown={handleKeyDown}
         placeholder="Type your message here..."
       />
-      <button type="submit" className="button">Send</button>
+
+      <div className='message-form-bottom-content'>
+        <button type='submit' className="button">Send</button>
+        {messageError && <p className='error-message'>{messageError}</p>}
+      </div>
     </form>
   );
 }

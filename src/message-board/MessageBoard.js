@@ -62,11 +62,10 @@ function MessageBoard() {
     const channel = supabase
       .channel('message-board-channel')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, payload => {
-        fetchMessages(); // Refetch messages when a new one is added
+        fetchMessages();
       })
       .subscribe();
 
-    // Cleanup on component unmount
     return () => {
       supabase.removeChannel(channel);
     };
