@@ -5,6 +5,7 @@ import supabase from './supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
 import '../css/SignIn.css';
+import { useEffect } from 'react';
 
 
 function SignIn() {
@@ -60,6 +61,16 @@ function SignIn() {
 
     return !!data;
   };
+
+  useEffect(() => {
+    if (signInError) {
+        const timer = setTimeout(() => {
+            setSignInError(''); // Clear the error message after 5 seconds
+        }, 3000);
+
+        return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [signInError]);
   
 
   return (

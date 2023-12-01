@@ -90,6 +90,14 @@
   font-family: monospace;
 }
 
+.edit-message-button:hover {
+  background-color: rgb(77, 159, 222);
+}
+
 .edit-message-button.cancel {
-  background-color: #6c757d;
+  background-color: rgb(200, 200, 200);
+}
+
+.edit-message-button.cancel:hover {
+  background-color: rgb(230, 230, 230);
 }

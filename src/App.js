@@ -50,6 +50,7 @@ const UserRedirect = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
+    // always take a user to the message board if they are logged in
     useEffect(() => {
         if (user) {
             navigate('/messageboard');

@@ -7,23 +7,56 @@ import { useEffect } from 'react';
 
 function Message({message, timestamp, username, id, deleteMessage, updateMessage, isMenuOpen, toggleMenu }) {
 
+    const [messageError, setmessageError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [editedMessage, setEditedMessage] = useState(message);
     const editAreaRef = useRef(null);
     const saveButtonRef = useRef(null);
+
 
     const handleDelete = (event) => {
         toggleMenu(false);
         deleteMessage(id);
     }
 
-    
+    const handleEdit = () => {
+        toggleMenu(false);
+        setIsEditing(true);
+    };
+
     const handleEditBlur = (event) => {
         if (editAreaRef.current && !editAreaRef.current.contains(event.relatedTarget) &&
         (!saveButtonRef.current || !saveButtonRef.current.contains(event.relatedTarget))) {
             handleCancel();
         }
     };
+    
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditedMessage(message);
+    };
+    
+    const handleSave = () => {
+
+        if (editedMessage.trim().length > 128) {
+            handleCancel();
+            setmessageError('Message cannot be longer than 128 characters');
+            setEditedMessage(message);
+            return;
+        }
+
+        if (!editedMessage.trim()) {
+            handleCancel();
+            setmessageError('Message cannot empty');
+            setEditedMessage(message);
+            return;
+        }
+
+
+        updateMessage(id, editedMessage);
+        setIsEditing(false);
+    };
+
 
     useEffect(() => {
         setEditedMessage(message);
@@ -31,7 +64,7 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
 
     useEffect(() => {
         if (isEditing && editAreaRef.current) {
-            editAreaRef.current.focus(); // Set focus to the textarea
+            editAreaRef.current.focus();
         }
     }, [isEditing]);
 
@@ -47,21 +80,15 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
         };
     }, []);
 
+    useEffect(() => {
+        if (messageError) {
+            const timer = setTimeout(() => {
+                setmessageError(''); // Clear the error message after 5 seconds
+            }, 3000);
 
-    const handleEdit = () => {
-        setIsEditing(true);
-        toggleMenu(false);
-    };
-    
-    const handleCancel = () => {
-        setIsEditing(false);
-        setEditedMessage(message);
-    };
-    
-    const handleSave = () => {
-        updateMessage(id, editedMessage); // Assuming updateMessage is a prop function to update the message
-        setIsEditing(false);
-    };
+            return () => clearTimeout(timer); // Cleanup the timer
+        }
+    }, [messageError]);
 
 return (
     <div className="message">
@@ -96,6 +123,9 @@ return (
                 <button className="edit-message-button cancel" onClick={handleCancel}>Cancel</button>
             </div>
         )}
+
+        {messageError && <p className='error-message' style={{justifyContent: 'flex-start'}}>{messageError}</p>}
+
     </div>
 );
 

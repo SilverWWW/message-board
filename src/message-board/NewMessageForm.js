@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../css/NewMessageForm.css';
+import { useEffect } from 'react';
 
 function NewMessageForm({ onSendMessage }) {
   
@@ -31,6 +32,17 @@ function NewMessageForm({ onSendMessage }) {
     }
   };
 
+
+  useEffect(() => {
+    if (messageError) {
+        const timer = setTimeout(() => {
+            setmessageError(''); // Clear the error message after 5 seconds
+        }, 3000);
+
+        return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [messageError]);
+
   return (
     <form className="new-message-form" onSubmit={handleSubmit}>
       <textarea
@@ -41,10 +53,10 @@ function NewMessageForm({ onSendMessage }) {
         placeholder="Type your message here..."
       />
 
-      <div className='message-form-bottom-content'>
-        <button type='submit' className="button">Send</button>
-        {messageError && <p className='error-message'>{messageError}</p>}
-      </div>
+      <button type='submit' className="button">Send</button>
+
+      {messageError && <p className='error-message'>{messageError}</p>}
+  
     </form>
   );
 }

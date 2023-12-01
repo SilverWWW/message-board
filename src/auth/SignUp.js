@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import supabase from './supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
+import { useEffect } from 'react';
+
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -98,6 +100,16 @@ const checkIfEmailInUsersTable = async (email) => {
 
     return !!data;
   };
+
+  useEffect(() => {
+    if (signUpError) {
+        const timer = setTimeout(() => {
+            setSignUpError(''); // Clear the error message after 5 seconds
+        }, 3000);
+
+        return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [signUpError]);
 
 
 
