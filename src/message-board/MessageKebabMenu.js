@@ -30,7 +30,7 @@ const MessageKebabMenu = ({ isOpen, toggleMenu, handleDelete, handleEdit, handle
                 <ul className="menu-options">
                     {user.id == user_id && <li onClick={handleEdit}>Edit</li>}
                     {user.id == user_id && <li onClick={handleDelete}>Delete</li>}
-                    {user.id != user_id &&<li onClick={handleReport}>Report Message</li>}
+                    {true &&<li onClick={handleReport}>Report Message</li>}
                 </ul>
             )}
         </div>
