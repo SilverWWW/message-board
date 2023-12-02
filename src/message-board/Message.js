@@ -4,6 +4,7 @@ import { useState } from 'react';
 import MessageKebabMenu from "./MessageKebabMenu";
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import GeneralMessageFilter from '../message-filter/GeneralMessageFilter';
 
 function Message({message, timestamp, username, id, deleteMessage, updateMessage, isMenuOpen, toggleMenu }) {
 
@@ -36,9 +37,9 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
         setEditedMessage(message);
     };
     
-    const handleSave = () => {
+    const handleSave = async () => {
 
-        if (editedMessage.trim().length > 128) {
+        if (editedMessage.length > 128) {
             handleCancel();
             setmessageError('Message cannot be longer than 128 characters');
             setEditedMessage(message);
@@ -52,7 +53,9 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
             return;
         }
 
-        updateMessage(id, editedMessage);
+        const { censored } = await GeneralMessageFilter({text: message});
+
+        updateMessage(id, censored);
         setIsEditing(false);
     };
 

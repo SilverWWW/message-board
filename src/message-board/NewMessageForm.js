@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import '../css/NewMessageForm.css';
 import { useEffect } from 'react';
+import GeneralMessageFilter from '../message-filter/GeneralMessageFilter';
 
 function NewMessageForm({ onSendMessage }) {
   
     const [message, setMessage] = useState('');
     const [messageError, setmessageError] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
 
     event.preventDefault();
 
@@ -16,12 +17,14 @@ function NewMessageForm({ onSendMessage }) {
       return;
     }
 
-    if (message.trim().length > 128) {
+    if (message.length > 128) {
       setmessageError('Message cannot be longer than 128 characters');
       return;
     }
 
-    onSendMessage(message);
+    const { censored } = await GeneralMessageFilter({text: message});
+    
+    onSendMessage(censored);
     setMessage('');
   };
 
