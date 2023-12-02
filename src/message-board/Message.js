@@ -53,12 +53,21 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
             return;
         }
 
-        const { censored } = await GeneralMessageFilter({text: message});
-
+        const { censored } = await GeneralMessageFilter({text: editedMessage});
+        
         updateMessage(id, censored);
         setIsEditing(false);
     };
 
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          if (isEditing) {
+            handleSave();
+          }
+        }
+      };
 
     useEffect(() => {
         setEditedMessage(message);
@@ -114,6 +123,7 @@ return (
                 value={editedMessage}
                 onChange={(e) => setEditedMessage(e.target.value)}
                 onBlur={handleEditBlur}
+                onKeyDown={handleKeyDown}
             />
         ) : (
             <div className="message-body">{message}</div>
