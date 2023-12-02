@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import '../css/MessageKebabMenu.css';
+import { useAuth } from "../auth/AuthContext";
 
-const MessageKebabMenu = ({ isOpen, toggleMenu, handleDelete, handleEdit }) => {
+
+const MessageKebabMenu = ({ isOpen, toggleMenu, handleDelete, handleEdit, handleReport, user_id }) => {
+
+    const { user } = useAuth();
 
     useEffect(() => {
         const closeMenu = (e) => {
@@ -24,9 +28,9 @@ const MessageKebabMenu = ({ isOpen, toggleMenu, handleDelete, handleEdit }) => {
             <button className='button-kebab-menu' onClick={toggleMenu}>☰</button>
             {isOpen && (
                 <ul className="menu-options">
-                    <li onClick={handleEdit}>Edit</li>
-                    <li onClick={handleDelete}>Delete</li>
-                    <li onClick={() => console.log('report message')}>Report Message</li>
+                    {user.id == user_id && <li onClick={handleEdit}>Edit</li>}
+                    {user.id == user_id && <li onClick={handleDelete}>Delete</li>}
+                    {user.id != user_id &&<li onClick={handleReport}>Report Message</li>}
                 </ul>
             )}
         </div>

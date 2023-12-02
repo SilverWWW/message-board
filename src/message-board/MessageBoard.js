@@ -51,7 +51,8 @@ function MessageBoard() {
         username,
         text: message.content,
         timestamp: new Date(message.created_at),
-        id: message.id
+        id: message.id,
+        user_id: message.posted_by
       };
     }));
 

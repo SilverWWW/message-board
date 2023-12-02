@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import GeneralMessageFilter from '../message-filter/GeneralMessageFilter';
 
-function Message({message, timestamp, username, id, deleteMessage, updateMessage, isMenuOpen, toggleMenu }) {
+function Message({message, timestamp, username, id, user_id, deleteMessage, updateMessage, isMenuOpen, toggleMenu }) {
 
     const [messageError, setmessageError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
@@ -24,6 +24,12 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
         toggleMenu(false);
         setIsEditing(true);
     };
+
+    const handleReport = () => {
+        toggleMenu(false);
+        setmessageError('Message reported');
+    };
+
 
     const handleEditBlur = (event) => {
         if (editAreaRef.current && !editAreaRef.current.contains(event.relatedTarget) &&
@@ -94,17 +100,17 @@ function Message({message, timestamp, username, id, deleteMessage, updateMessage
     useEffect(() => {
         if (messageError) {
             const timer = setTimeout(() => {
-                setmessageError(''); // Clear the error message after 5 seconds
+                setmessageError('');
             }, 3000);
 
-            return () => clearTimeout(timer); // Cleanup the timer
+            return () => clearTimeout(timer);
         }
     }, [messageError]);
 
 return (
     <div className="message">
         <div className="message-header">
-            <span className="message-username">Posted by <b>{username}</b></span>
+            <span className="message-username"><b>{username}</b></span>
             <div className="message-header-right">
                 <span className="message-timestamp"><i>{moment(timestamp).fromNow()}</i></span>
                 <MessageKebabMenu 
@@ -112,6 +118,8 @@ return (
                     toggleMenu={toggleMenu}
                     handleDelete={handleDelete} 
                     handleEdit={handleEdit}
+                    handleReport={handleReport}
+                    user_id={user_id}
                 />
             </div>
         </div>

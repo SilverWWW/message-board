@@ -22,6 +22,7 @@ function MessageList({ messages, deleteMessage, updateMessage}) {
         <Message
           key={index}
           id={message.id}
+          user_id={message.user_id}
           username={message.username}
           message={message.text}
           timestamp={message.timestamp}
