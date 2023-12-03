@@ -22,7 +22,7 @@ Here are some of the key user-facing features the app provides:
 
 ## How to Use the App ##
 
-Simply navigate to [this link](message-board-eight-omega.vercel.app) to begin using TDY. <i>Note that the app will not function correctly if run on a local environment, as it depends on the correct ```.env``` configurations.</i>
+Simply navigate to [this link](https://message-board-eight-omega.vercel.app) to begin using TDY. <i>Note that the app will not function correctly if run on a local environment, as it depends on the correct ```.env``` configurations.</i>
 
 ## In-Depth Overview of Component Structure ##
 
