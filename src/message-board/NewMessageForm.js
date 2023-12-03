@@ -39,10 +39,10 @@ function NewMessageForm({ onSendMessage }) {
   useEffect(() => {
     if (messageError) {
         const timer = setTimeout(() => {
-            setmessageError(''); // Clear the error message after 5 seconds
+            setmessageError(''); 
         }, 3000);
 
-        return () => clearTimeout(timer); // Cleanup the timer
+        return () => clearTimeout(timer);
     }
   }, [messageError]);
 

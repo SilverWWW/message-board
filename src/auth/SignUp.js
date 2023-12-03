@@ -111,10 +111,10 @@ const checkIfEmailInUsersTable = async (email) => {
   useEffect(() => {
     if (signUpError) {
         const timer = setTimeout(() => {
-            setSignUpError(''); // Clear the error message after 5 seconds
+            setSignUpError(''); 
         }, 3000);
 
-        return () => clearTimeout(timer); // Cleanup the timer
+        return () => clearTimeout(timer);
     }
   }, [signUpError]);
 

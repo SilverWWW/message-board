@@ -1,9 +1,9 @@
 
 
 .footer {
-  position: fixed; /* Keep the footer fixed at the bottom */
-  bottom: 0; /* Align it to the bottom of the page */
-  left: 0; /* Align it to the left side of the page */
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

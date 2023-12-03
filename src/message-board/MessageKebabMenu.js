@@ -10,7 +10,7 @@ const MessageKebabMenu = ({ isOpen, toggleMenu, handleDelete, handleEdit, handle
     useEffect(() => {
         const closeMenu = (e) => {
             if (!e.target.closest('.kebab-menu-container')) {
-                toggleMenu(false); // Use the toggleMenu function passed as a prop
+                toggleMenu(false);
             }
         };
     
@@ -21,7 +21,7 @@ const MessageKebabMenu = ({ isOpen, toggleMenu, handleDelete, handleEdit, handle
         return () => {
             document.removeEventListener('click', closeMenu);
         };
-    }, [isOpen, toggleMenu]); // Include toggleMenu in the dependency array
+    }, [isOpen, toggleMenu]);
 
     return (
         <div className="kebab-menu-container">

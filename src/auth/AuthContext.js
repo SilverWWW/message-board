@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Updated method to get the current session
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         setUser(session?.user || null);

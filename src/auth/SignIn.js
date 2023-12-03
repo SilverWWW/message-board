@@ -73,10 +73,10 @@ function SignIn() {
   useEffect(() => {
     if (signInError) {
         const timer = setTimeout(() => {
-            setSignInError(''); // Clear the error message after 5 seconds
+            setSignInError('');
         }, 3000);
 
-        return () => clearTimeout(timer); // Cleanup the timer
+        return () => clearTimeout(timer);
     }
   }, [signInError]);
 
