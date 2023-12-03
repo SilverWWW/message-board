@@ -93,6 +93,18 @@ function MessageBoard() {
   };
 
 
+  const reportMessage = async (messageId) => {
+    const { error } = await supabase
+      .from('messages')
+      .update({ reported: true })
+      .match({ id: messageId });
+
+      if (error) {
+        console.error('Error reporting message:', error);
+      }
+  }
+
+
 
   useEffect(() => {
     fetchMessages();
@@ -147,7 +159,12 @@ function MessageBoard() {
       <p className='title-header'>What's on your mind..?</p>
       <div className='message-board'>
         <NewMessageForm onSendMessage={sendMessage} />  
-        <MessageList messages={messages} deleteMessage={deleteMessage} updateMessage={updateMessage}/>
+        <MessageList 
+          messages={messages} 
+          deleteMessage={deleteMessage} 
+          updateMessage={updateMessage}
+          reportMessage={reportMessage}
+        />
       </div>
     </div>
     

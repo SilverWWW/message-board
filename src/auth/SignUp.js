@@ -101,6 +101,13 @@ const checkIfEmailInUsersTable = async (email) => {
     return !!data;
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSignUp(email, password, name);
+    }
+  };
+
   useEffect(() => {
     if (signUpError) {
         const timer = setTimeout(() => {
@@ -114,7 +121,7 @@ const checkIfEmailInUsersTable = async (email) => {
 
 
   return (
-    <div className='center'>
+    <div className='center' onKeyDown={handleKeyDown}>
 
         <p className='title-header'>Sign up with Email</p>  
 

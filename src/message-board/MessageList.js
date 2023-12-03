@@ -3,7 +3,7 @@ import Message from './Message';
 import '../css/MessageList.css';
 import { useState } from 'react';
 
-function MessageList({ messages, deleteMessage, updateMessage}) {
+function MessageList({ messages, deleteMessage, updateMessage, reportMessage}) {
 
   const [openMenuId, setOpenMenuId] = useState(null);
 
@@ -30,6 +30,7 @@ function MessageList({ messages, deleteMessage, updateMessage}) {
           updateMessage={updateMessage}
           isMenuOpen={openMenuId === message.id}
           toggleMenu={() => toggleMenu(message.id)}
+          reportMessage={reportMessage}
         />
       ))}
     </div>

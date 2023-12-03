@@ -62,6 +62,14 @@ function SignIn() {
     return !!data;
   };
 
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSignIn(email, password);
+    }
+  };
+
   useEffect(() => {
     if (signInError) {
         const timer = setTimeout(() => {
@@ -71,11 +79,11 @@ function SignIn() {
         return () => clearTimeout(timer); // Cleanup the timer
     }
   }, [signInError]);
-  
+
 
   return (
   <div>
-      <div className="center">
+      <div className="center" onKeyDown={handleKeyDown}>
 
         <p className='title-header'>Sign in with Email</p>
 

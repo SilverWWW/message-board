@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import GeneralMessageFilter from '../message-filter/GeneralMessageFilter';
 
-function Message({message, timestamp, username, id, user_id, deleteMessage, updateMessage, isMenuOpen, toggleMenu }) {
+function Message({message, timestamp, username, id, user_id, deleteMessage, updateMessage, reportMessage, isMenuOpen, toggleMenu }) {
 
     const [messageError, setmessageError] = useState('');
     const [isEditing, setIsEditing] = useState(false);
@@ -28,6 +28,7 @@ function Message({message, timestamp, username, id, user_id, deleteMessage, upda
     const handleReport = () => {
         toggleMenu(false);
         setmessageError('Message reported');
+        reportMessage(id);
     };
 
 

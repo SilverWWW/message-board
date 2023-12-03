@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# [The Daily You](message-board-eight-omega.vercel.app) #
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview ##
 
-## Available Scripts
+This project is a comprehensive messaging board application designed to facilitate community interaction and communication. Users can register, create profiles, and engage in discussions through posting messages in a global thread. 
 
-In the project directory, you can run:
+The project was created using [React](https://react.dev/) and implements features provided by [Supabase](https://supabase.com/) and [API Ninjas](https://api-ninjas.com/).
 
-### `npm start`
+Here are some of the key user-facing features the app provides:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* <b>User authentication</b>: Using the Supabase authentication API, users can securely create and log into accounts. Users are prompted to create a username under which they can post messages. User sessions persist on a device until they log out.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* <b>Posting messages</b>: Once logged in, users can post messages to a global message board via a user-friendly homepage containing a text input form.
 
-### `npm test`
+* <b>Editing and deleting messages:</b> After posting a message, users have the option to edit or delete said message.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* <b>Real-time user messaging</b>: Multiple users with the app open at the same time can see live messages being posted, edited, and deleted.
 
-### `npm run build`
+* <b>Content moderation</b>: All sent and edited messages are put through a profanity filter provided by API Ninjas and censored if they contain inflammatory content. Also, users may report messages posted by other users which are flagged for later review. Lastly, messages are required to be between 1 and 128 characters.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* <b>Hosting</b>: This web app is currently being hosted through [Vercel](https://vercel.com/). Feel free to log in and leave a message!
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to Use the App ##
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Simply navigate to [this link](message-board-eight-omega.vercel.app) to begin using TDY. <i>Note that the app will not function correctly if run on a local environment, as it depends on the correct ```.env``` configurations.</i>
 
-### `npm run eject`
+## In-Depth Overview of Component Structure ##
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### ```MessageBoard``` ####
+A message board is a component that displays all the previous messages as a [```MessageList```](#messagelist) and allows users to input new messages via a [```NewMessageForm```](#newmessageform). This component manages all the interactions with the database in methods such as ```fetchMessages```, ```sendMessage```, ```deleteMessage```, ```updateMessage```, and ```reportMessage```. Additionally, in this component, we subscribe to all changes in the ```messages``` table in the database so that any update is immediately reflected.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### ```NewMessageForm``` ####
+A new message form is where users enter and send text to become new messages. It contains a text area that reflects the text entered by users and a send button that handles sending the entered message to the message board. Also, it optionally displays errors depending on if invalid messages are sent.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### ```MessageList``` ####
+A message list is effectively just a parent container that holds and organizes a set of [```Messages```](#message) from most to least recent. It employs a useState to ensure that only one [```MessageKebabMenu```](#messagekebabmenu) can be open at a time.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### ```Message``` ####
+A message is a bundle of information pertaining to a given message sent by a user. It contains the user's display name, the time the message was sent, a [```MessageKebabMenu```](#messagekebabmenu) with options to interact with the message, and the message text itself. This component contains the majority of the logic for editing a message.
 
-## Learn More
+#### ```MessageKebabMenu``` ####
+Contained inside a [```Message```](#message), a message kebab menu is a short list of options offered to the user depending on who the message was sent by. If the user sent the message, the menu lets them edit or delete the message, otherwise, it lets them report it.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### ```AuthContext``` and ```PrivateRoute``` ####
+An auth context is a wrapper component that wraps around the entirety of the exported app. Effectively, it allows tracking of the current user state across every sub-component of the app. The private route component wraps around the message board component and is a way of automatically redirecting the user to the login home if they become signed out at any time.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### ```LoginHome```, ```SignIn```, and ```SignUp``` ####
+By default, if they are not signed in, users are redirected to the login home page where they have the option to sign in and get redirected to the sign in page. Here, users can enter an email and password that, upon submission, will be passed to Supabase's sign in method provided by their authentication API. Alternatively, users may redirect to the sign up page where they can enter the necessary fields to sign up which, again, is handled by Supabase's authentication API.
 
-### Code Splitting
+#### ```Footer``` ####
+The footer, which is viewable on all pages, displays whether the user is signed in or not. If they are, it will display their unique username as well as a button to sign out at any time.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### ```GeneralMessageFilter``` ####
+The general message filter is a simple component that, given a string of text, makes an API call to API Ninja's profanity filter API and returns a censored version of the given text.
 
-### Analyzing the Bundle Size
+## For C4C: Why this App Fulfills the Requirements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+I believe my app effectively fulfills the assignment requirements through its comprehensive functionality, well-structured design, and clear documentation. I believe my message board component structure demonstrates good program design and allows for easy implementation of new features. Additionally, the app effectively makes use of Supabase's authentication and database interaction APIs. Lastly and most important, my app implements all the three required features, some of the suggested bonus features, and other features I thought would be interesting.
 
-### Making a Progressive Web App
+I would also note that this project required <i>a lot</i> of learning as it was my first time using a web development framework like React and Supabase, let alone JavaScript itself. However, I'm glad I did as I feel very proud of the final product and plan on creating projects that employ similar skills in the future.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
