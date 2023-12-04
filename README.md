@@ -53,6 +53,22 @@ The footer, which is viewable on all pages, displays whether the user is signed 
 #### ```GeneralMessageFilter``` ####
 The general message filter is a simple component that, given a string of text, makes an API call to API Ninja's profanity filter API and returns a censored version of the given text.
 
+## Database Setup ##
+
+The database for this web app (hosted by Supabase) is relatively simple. There are two key tables: ```users``` and ```messages```.
+
+The ```users``` table contains the following columns:
+* ```id``` (UID) (PK): uniquely identifies users.
+* ```email``` (varchar): tracks user emails.
+* ```name``` (varchar): tracks user display names.
+
+The ```messages``` table contains the following columns:
+* ```id``` (int128) (PK): uniquely identifies messages.
+* ```created_at``` (timestamptz): tracks when messages were sent.
+* ```posted_by``` (UID) (FK): identifies which user posted the message.
+* ```content``` (varchar): stores the text content of the message.
+* ```reported``` (bool): tracks whether a message has been reported or not.
+
 ## For C4C: Why this App Fulfills the Requirements
 
 I believe my app effectively fulfills the assignment requirements through its comprehensive functionality, well-structured design, and clear documentation. I believe my message board component structure demonstrates good program design and allows for easy implementation of new features. Additionally, the app effectively makes use of Supabase's authentication and database interaction APIs. Lastly and most important, my app implements all the three required features, some of the suggested bonus features, and other features I thought would be interesting.
