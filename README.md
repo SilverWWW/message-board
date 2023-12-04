@@ -1,4 +1,4 @@
-# [The Daily You](message-board-eight-omega.vercel.app) #
+# [The Daily You](https://message-board-eight-omega.vercel.app) #
 
 ## Overview ##
 
