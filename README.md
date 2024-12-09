@@ -69,11 +69,6 @@ The ```messages``` table contains the following columns:
 * ```content``` (varchar): stores the text content of the message.
 * ```reported``` (bool): tracks whether a message has been reported or not.
 
-## For C4C: Why this App Fulfills the Requirements
-
-I believe my app effectively fulfills the assignment requirements through its comprehensive functionality, well-structured design, and clear documentation. I believe my message board component structure demonstrates good program design and allows for easy implementation of new features. Additionally, the app effectively makes use of Supabase's authentication and database interaction APIs. Lastly and most important, my app implements all the three required features, some of the suggested bonus features, and other features I thought would be interesting.
-
-I would also note that this project required <i>a lot</i> of learning as it was my first time using a web development framework like React and Supabase, let alone JavaScript itself. However, I'm glad I did as I feel very proud of the final product and plan on creating projects that employ similar skills in the future.
 
 
 
